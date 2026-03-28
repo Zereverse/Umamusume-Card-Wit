@@ -1,1 +1,1 @@
-# Uma-Musume-Memory-Card-Game
+# Umamusume-Card-Wit
