@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Umamusume Match Made in the Glue Factory</string>
+    <string name="title_activity_card_list">CardList</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+</resources>
