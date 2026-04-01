@@ -1,5 +1,8 @@
 package com.example.umamusumematchmadeinthegluefactory
 
+import android.app.Activity
+import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,13 +31,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.edit
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -63,6 +67,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             UmamusumeMatchMadeInTheGlueFactoryTheme {
+                val sharedPref = getSharedPreferences("auth", MODE_PRIVATE)
+                val isLoggedIn = sharedPref.getBoolean("IS_LOGGED_IN", false)
+
+                if (isLoggedIn) {
+                    startActivity(Intent(this, MainMenu::class.java))
+                    finish() // prevents the app from going back to the login screen
+                }
+
                 BackgroundImage()
 
                 val navController = rememberNavController()
@@ -80,7 +92,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(Routes.LOGINSCREEN) {
-                        LogIn(
+                        LogIn (
                             onNavigateToSignUp = {
                                 navController.navigate(Routes.SIGNUPSCREEN)
                             }
@@ -196,6 +208,7 @@ fun LogIn(onNavigateToSignUp: () -> Unit){
     var errorMessage by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -261,10 +274,27 @@ fun LogIn(onNavigateToSignUp: () -> Unit){
                         val isAuthorized = users.any { it.name == username && it.password == password }
 
                         if (isAuthorized) {
-                            println("Success! Access Granted.")
                             errorMessage = ""
-//                            MainMenu()
-                        } else {
+                            // When login is successful, save it
+                            val sharedPref = context.getSharedPreferences("auth", MODE_PRIVATE)
+
+                            //saves the data locally
+                            sharedPref.edit {
+                                putBoolean("IS_LOGGED_IN", true)
+                                putString("USER_NAME", username)
+                            }
+
+                            //Passes specified values to the MainMenu(next) activity
+                            val intent = Intent(context, MainMenu::class.java).apply {
+                                putExtra("USER_NAME", username)
+                                putExtra("IS_LOGGED_IN", true)
+                            }
+
+                            context.startActivity(intent)
+                            (context as Activity).finish() //Destroys the Login Activity
+
+                        }
+                        else {
                             errorMessage = "Error: Username or Password do not match"
                         }
                     },
@@ -418,19 +448,17 @@ fun SignUp(onNavigateToLogIn: () -> Unit){
             }
         }
     }
-
-
 }
 
 //Previews Debugging Purposes
-@Preview(showBackground = true)
-@Composable
-fun LogoPreview() {
-    UmamusumeMatchMadeInTheGlueFactoryTheme {
-        BackgroundImage()
-        Logo()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun LogoPreview() {
+//    UmamusumeMatchMadeInTheGlueFactoryTheme {
+//        BackgroundImage()
+//        Logo()
+//    }
+//}
 
 //@Preview(showBackground = true)
 //@Composable
