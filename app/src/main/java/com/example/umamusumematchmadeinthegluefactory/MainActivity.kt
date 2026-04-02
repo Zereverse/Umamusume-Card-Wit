@@ -44,18 +44,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.umamusumematchmadeinthegluefactory.ui.theme.UmamusumeMatchMadeInTheGlueFactoryTheme
 
-
-object Routes {
-    const val MAIN = "main"
-    const val LOGINSCREEN = "login"
-    const val SIGNUPSCREEN = "signup"
-    const val MAINMENU = "mainmenu"
-    const val STARTGAME = "startgame"
-    const val CARDLIST = "cardlist"
-    const val QUITGAME = "quitgame"
-}
-
-// REGISTERED USERS GO HERE
+// REGISTERED USERS GO HERE (I hope)
 data class User(var name: String, var password: String)
 
 val users = mutableStateListOf(
@@ -325,11 +314,6 @@ fun LogIn(onNavigateToSignUp: () -> Unit){
     }
 }
 
-//@Composable
-//fun UserChecker(){
-//
-//}
-
 @Composable
 fun SignUp(onNavigateToLogIn: () -> Unit){
     //Temporary Values for checking
@@ -450,31 +434,3 @@ fun SignUp(onNavigateToLogIn: () -> Unit){
         }
     }
 }
-
-//Previews Debugging Purposes
-//@Preview(showBackground = true)
-//@Composable
-//fun LogoPreview() {
-//    UmamusumeMatchMadeInTheGlueFactoryTheme {
-//        BackgroundImage()
-//        Logo()
-//    }
-//}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun ClickablePreview() {
-//    UmamusumeMatchMadeInTheGlueFactoryTheme {
-//        BackgroundImage()
-//        Clickable()
-//    }
-//}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun LogInPreview() {
-//    UmamusumeMatchMadeInTheGlueFactoryTheme {
-//        BackgroundImage()
-//        LogIn()
-//    }
-//}

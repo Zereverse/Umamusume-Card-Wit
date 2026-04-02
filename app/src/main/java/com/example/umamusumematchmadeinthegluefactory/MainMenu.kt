@@ -80,8 +80,23 @@ class MainMenu : ComponentActivity() {
                         StartGame(
                             onNavigateToMAINMENU = {
                                 navController.navigate(Routes.MAINMENU)
-                            }
+                            },
+                            onNavigateToEasy = { navController.navigate(Routes.EASY) },
+                            onNavigateToMedium = { navController.navigate(Routes.MEDIUM) },
+                            onNavigateToHard = { navController.navigate(Routes.HARD) }
                         )
+                    }
+
+                    composable(Routes.EASY) {
+                        Easy(onNavigateBack = { navController.navigate(Routes.STARTGAME) })
+                    }
+
+                    composable(Routes.MEDIUM) {
+                        Medium(onNavigateBack = { navController.navigate(Routes.STARTGAME) })
+                    }
+
+                    composable(Routes.HARD) {
+                        Hard(onNavigateBack = { navController.navigate(Routes.STARTGAME) })
                     }
 
                     composable(Routes.CARDLIST) {
@@ -214,7 +229,7 @@ fun QuitGameScreen(){
                     .padding(end = 20.dp)
             ) {
                 Text(
-                    text = "Yes"
+                    text = "Quit and Log Out"
                 )
             }
 
@@ -226,7 +241,7 @@ fun QuitGameScreen(){
                     .padding(end = 20.dp)
             ) {
                 Text(
-                    text = "No"
+                    text = "Quit"
                 )
             }
         }
@@ -265,7 +280,12 @@ fun LogOut(){
 }
 
 @Composable
-fun StartGame(onNavigateToMAINMENU: () -> Unit) {
+fun StartGame(
+    onNavigateToMAINMENU: () -> Unit,
+    onNavigateToEasy: () -> Unit,
+    onNavigateToMedium: () -> Unit,
+    onNavigateToHard: () -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -288,7 +308,7 @@ fun StartGame(onNavigateToMAINMENU: () -> Unit) {
             ) {
                 // EASY
                 Button(
-                    onClick = { },
+                    onClick = onNavigateToEasy,
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     shape = RoundedCornerShape(50.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -301,7 +321,7 @@ fun StartGame(onNavigateToMAINMENU: () -> Unit) {
 
                 // MEDIUM
                 Button(
-                    onClick = { },
+                    onClick = onNavigateToMedium,
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     shape = RoundedCornerShape(50.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -314,7 +334,7 @@ fun StartGame(onNavigateToMAINMENU: () -> Unit) {
 
                 // HARD
                 Button(
-                    onClick = { },
+                    onClick = onNavigateToHard,
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     shape = RoundedCornerShape(50.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -448,32 +468,3 @@ fun ListItem(name: String, imageRes: Int) {
         }
     }
 }
-
-
-//FOR DEBUGGING PURPOSES
-
-//@Preview(showBackground = true)
-//@Composable
-//fun StartGamePreview(){
-//    UmamusumeMatchMadeInTheGlueFactoryTheme {
-//        BackgroundImage()
-//        StartGame()
-//    }
-//}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun ListItemPreview() {
-//    UmamusumeMatchMadeInTheGlueFactoryTheme {
-//        ListItem("Haru Urara", R.drawable.haru)
-//    }
-//}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun LogOutPreview(){
-//    UmamusumeMatchMadeInTheGlueFactoryTheme {
-//        BackgroundImage()
-//        LogOut()
-//    }
-//}
