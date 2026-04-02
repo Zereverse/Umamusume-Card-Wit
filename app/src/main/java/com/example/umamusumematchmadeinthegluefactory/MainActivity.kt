@@ -49,6 +49,10 @@ object Routes {
     const val MAIN = "main"
     const val LOGINSCREEN = "login"
     const val SIGNUPSCREEN = "signup"
+    const val MAINMENU = "mainmenu"
+    const val STARTGAME = "startgame"
+    const val CARDLIST = "cardlist"
+    const val QUITGAME = "quitgame"
 }
 
 // REGISTERED USERS GO HERE
@@ -107,9 +111,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-
-                // Activity Content
-
             }
         }
     }
