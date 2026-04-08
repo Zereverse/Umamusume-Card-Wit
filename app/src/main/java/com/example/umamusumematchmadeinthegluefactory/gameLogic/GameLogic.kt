@@ -17,10 +17,6 @@ class GameLogic(
     private var isProcessing = false
 
     private val handler = Handler(Looper.getMainLooper())
-
-    // -------------------------------------------------------
-    // Call this once when the game starts
-    // -------------------------------------------------------
     fun initGame(cardCount: Int) {
         totalCards = cardCount
         matchedCards = 0
@@ -29,50 +25,36 @@ class GameLogic(
         isProcessing = false
     }
 
-    // -------------------------------------------------------
-    // Call this when a player taps a card
-    // -------------------------------------------------------
     fun onCardTapped(card: CardModel) {
 
-        // Ignore if already matched, already flipped, or waiting for delay
         if (card.isMatched || card.isFlipped || isProcessing) return
 
-        // Step 1 — Flip card face-up
         card.isFlipped = true
 
-        // Step 2 — Add to flipCards list
         flipCards.add(card)
 
-        // Step 3 — Are two cards selected?
         if (flipCards.size < 2) {
-            // No — wait for 2nd card
             return
         }
 
-        // Yes — lock further taps while processing
         isProcessing = true
 
         val firstCard  = flipCards[0]
         val secondCard = flipCards[1]
 
-        // Step 4 — Do both cards share the same name?
         if (firstCard.name == secondCard.name) {
-            // MATCH
             score += 10
             onScoreUpdate(score)
 
-            // Disable flip — cards stay face-up
             firstCard.isMatched  = true
             secondCard.isMatched = true
             matchedCards += 2
 
             onMatchFound(firstCard, secondCard)
 
-            // Clear flipCards, then check win condition
             clearAndCheckWin()
 
         } else {
-            // NO MATCH
             score -= 5
             onScoreUpdate(score)
 
@@ -82,20 +64,15 @@ class GameLogic(
                 secondCard.isFlipped = false
                 onFlipBack(firstCard, secondCard)
 
-                // Clear flipCards, then check win condition
                 clearAndCheckWin()
-            }, 500) // Increased delay slightly to be more visible
+            }, 500)
         }
     }
 
-    // -------------------------------------------------------
-    // Clear state & check if game is over
-    // -------------------------------------------------------
     private fun clearAndCheckWin() {
         flipCards.clear()
         isProcessing = false
 
-        // matchedCards == totalCards means all matched → end game
         if (matchedCards >= totalCards && totalCards > 0) {
             onGameEnd()
         }
