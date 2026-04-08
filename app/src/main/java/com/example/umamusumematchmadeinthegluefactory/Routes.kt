@@ -11,4 +11,5 @@ object Routes {
     const val EASY = "easy"
     const val MEDIUM = "medium"
     const val HARD = "hard"
+    const val SCOREBOARD = "scoreboard"
 }

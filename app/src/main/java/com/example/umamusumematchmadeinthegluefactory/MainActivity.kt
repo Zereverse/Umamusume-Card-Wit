@@ -117,6 +117,16 @@ fun BackgroundImage(){
 }
 
 @Composable
+fun PlaymatImage(){
+    Image(
+        painter = painterResource(id = R.drawable.playmat),
+        contentDescription = "Background Image",
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Composable
 fun Logo(){
     Column(
         modifier = Modifier.fillMaxSize(),

@@ -41,7 +41,7 @@ class PopulateCard(private val numCards: Int) {
 
         val gameList = mutableListOf<CardModel>()
         selected.forEachIndexed { index, card ->
-            // Create two distinct CardModel instances for each unique card
+            // Create two distinct CardModel instances for each unique card with unique IDs
             gameList.add(CardModel(id = index * 2, name = card.name, backImg = card.backImg, frontImg = card.frontImg))
             gameList.add(CardModel(id = index * 2 + 1, name = card.name, backImg = card.backImg, frontImg = card.frontImg))
         }
